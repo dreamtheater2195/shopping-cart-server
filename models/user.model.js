@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -14,6 +15,9 @@ const UserSchema = new Schema({
             messsage: '{VALUE} is not a valid email'
         }
     },
+    permissionLevel: {
+        type: Number
+    },
     password: { type: String, required: true }
 });
 
@@ -25,7 +29,7 @@ UserSchema.pre('save', function (next) {
             if (err) {
                 return next(err);
             }
-            bcrypt.hash(user.password, salt, null, (err, hash) => {
+            bcrypt.hash(user.password.toString(), salt, null, (err, hash) => {
                 if (err) {
                     return next(err);
                 }

@@ -8,5 +8,10 @@
         "PORT": 3000,
         "MONGODB_URI": "mongodb://localhost:27017/ShoppingCart",
         "JWT_SECRET": "76d78sa6d78sa6d78sadashyjg"
+    },
+    "permissionLevels": {
+        "NORMAL_USER": 1,
+        "MODERATOR": 4,
+        "ADMIN": 2048
     }
 }

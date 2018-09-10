@@ -8,6 +8,7 @@ var helmet = require('helmet');
 var mongoose = require('mongoose');
 require('./middlewares/passport');
 var authRoutes = require('./routes/auth.routes');
+var userRoutes = require('./routes/user.routes');
 var app = express();
 
 app.use(helmet());
@@ -27,22 +28,12 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
 
   authRoutes(app);
-
+  userRoutes(app);
   //404 Not Found Middleware
   app.use(function (req, res, next) {
     res.status(404)
       .type('text')
       .send('Not Found');
-  });
-  // error handler
-  app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
   });
 });
 
