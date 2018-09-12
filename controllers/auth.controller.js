@@ -24,7 +24,7 @@ exports.signup = (req, res) => {
         const newUser = new UserModel(body);
         newUser.save((err) => {
             if (err) return res.status(500).send(err);
-            res.send({ access_token: tokenForUser(newUser) });
+            res.status(201).send({ access_token: tokenForUser(newUser) });
         });
     });
 }

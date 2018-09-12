@@ -15,6 +15,16 @@ exports.list = (req, res) => {
         });
 }
 
+exports.insert = (req, res) => {
+    const body = _.pick(req.body, ["name", "description"]);
+    const category = new CategoryModel(body);
+    category.save((err) => {
+        if (err)
+            return res.status(400).send(err);
+        res.status(201).send();
+    });
+}
+
 exports.getById = (req, res) => {
     let categoryId = req.params.categoryId;
     CategoryModel.findById(categoryId, (err, category) => {
