@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt-nodejs');
 const Schema = mongoose.Schema;
+const CartSchema = require('./cart.schema');
 
 const UserSchema = new Schema({
     firstName: { type: String, required: true },
@@ -18,7 +19,8 @@ const UserSchema = new Schema({
     permissionLevel: {
         type: Number
     },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    cart: CartSchema
 });
 
 UserSchema.pre('save', function (next) {
