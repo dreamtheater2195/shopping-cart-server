@@ -33,7 +33,7 @@ exports.patchById = async (req, res) => {
         Object.keys(body).forEach((key) => {
             user[key] = body[key];
         });
-        user.save((err, updatedUser) => {
+        user.save((err) => {
             if (err)
                 return res.status(400).send(err);
             res.send({ user });

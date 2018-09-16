@@ -10,6 +10,7 @@ require('./middlewares/passport');
 var authRoutes = require('./routes/auth.routes');
 var userRoutes = require('./routes/user.routes');
 var categoryRoutes = require('./routes/category.routes');
+var productRoutes = require('./routes/product.routes');
 var app = express();
 
 app.use(helmet());
@@ -31,7 +32,8 @@ db.once('open', function () {
   authRoutes(app);
   userRoutes(app);
   categoryRoutes(app);
-
+  productRoutes(app);
+  
   //404 Not Found Middleware
   app.use(function (req, res, next) {
     res.status(404)
