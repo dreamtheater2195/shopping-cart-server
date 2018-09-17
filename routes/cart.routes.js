@@ -14,8 +14,8 @@ module.exports = function (app) {
         CartController.addProductToCart
     ]);
     //remove a product from user's cart
-    // app.post('/api/cart/:owner/remove/:productId', [
-    //     //Passport.validJWTNeeded,
-    //     CartController.removeProductFromCart
-    // ]);
+    app.post('/api/cart/:owner/remove/:productId', [
+        //Passport.validJWTNeeded,
+        CartController.removeProductFromCart
+    ]);
 }

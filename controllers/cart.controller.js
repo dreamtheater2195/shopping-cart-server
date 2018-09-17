@@ -69,6 +69,59 @@ exports.addProductToCart = async (req, res) => {
         }
 
         const updatedUser = await user.save();
+        const updatedProduct = await product.save();
+        res.send({
+            cart: updatedUser.cart
+        });
+    } catch (err) {
+        res.status(400).send(err);
+    }
+}
+
+exports.removeProductFromCart = async (req, res) => {
+    const { owner, productId } = req.params;
+    if (!ObjectID.isValid(owner) || !ObjectID.isValid(productId)) {
+        return res.status(404).send();
+    }
+    try {
+        //remove item from cart
+        const user = await UserModel.findById(owner);
+        if (!user) {
+            return res.status(404).send();
+        }
+        const product = await ProductModel.findById(productId);
+        if (!product) {
+            return res.status(404).send();
+        }
+
+        user.cart.modifiedOn = new Date();
+        for (let i = 0; i < user.cart.products.length; i++) {
+            if (user.cart.products[i].productId == productId) {
+                if (user.cart.products[i].quantity > 1) {
+                    user.cart.products[i].quantity -= 1;
+                }
+                else {
+                    user.cart.products = user.cart.products.filter(product => product.productId != productId);
+                }
+                break;
+            }
+        }
+
+        //Return product to inventory
+        product.quantity += 1;
+        for (let i = 0; i < product.reservations.length; i++) {
+            if (product.reservations[i].userId == owner) {
+                if (product.reservations[i].quantity > 1) {
+                    product.reservations[i].quantity -= 1;
+                } else {
+                    product.reservations = product.reservations.filter(reservation => reservation.userId != owner);
+                }
+                break;
+            }
+        }
+
+        const updatedUser = await user.save();
+        const updatedProduct = await product.save();
         res.send({
             cart: updatedUser.cart
         });
