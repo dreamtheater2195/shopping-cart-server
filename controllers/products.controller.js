@@ -18,7 +18,7 @@ exports.list = (req, res) => {
 }
 
 exports.postProductForCategory = (req, res) => {
-    const body = _.pick(req.body, ["name", "description", "imagePath", "price"]);
+    const body = _.pick(req.body, ["name", "description", "imagePath", "price", "quantity"]);
     body.categoryId = req.params.categoryId;
 
     CategoryModel.findById(req.params.categoryId).then(category => {
@@ -73,7 +73,7 @@ exports.patchProductForCategory = async (req, res) => {
         return res.status(404).send();
     }
 
-    const body = _.pick(req.body, ["name", "description", "imagePath", "price"]);
+    const body = _.pick(req.body, ["name", "description", "imagePath", "price", "quantity"]);
 
     ProductModel.findOneAndUpdate(
         { _id: productId, categoryId },
